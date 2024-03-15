@@ -1,10 +1,14 @@
+[
   {
-    "id":"1",
-    "title":"database",
-    "description":"fverhtdfd",
-    "instructor":"cdfrgsdfbf",
-    "price":"advregwr",
-    "createAt":"cdewgt4hdfs"
-}
-
-
+    "id": 1,
+    "title": "Kanzu code",
+    "description": "fverhtdfd",
+    "instructor": "cdfrgsdfbf",
+    "price": "advregwr",
+    "createAt": "cdewgt4hdfs"
+  },
+  {
+    "id": 2,
+    "title": "database"
+  }
+]
