@@ -6,7 +6,8 @@
 >R -Read
 >U -Update
 >D - Delete
->This will use a simple database file that is basically a Json file with a javascript object.
+
+This will use a simple database file that is basically a Json file with a javascript object.
 
 #####Project requirements
 The versions of the requirements are  specificed in the package.json
