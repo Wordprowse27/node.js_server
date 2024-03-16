@@ -22,9 +22,9 @@ const __dirname = path.dirname(__filename);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(morgan("dev"));
-app.use(express.static("frontend"));
+app.use(express.static("Public"));
 app.get("/login", (req, res) => {
-  res.sendFile(path.join(__dirname, "frontend", "login.html"));
+  res.sendFile(path.join(__dirname, "Public", "login.html"));
 });
 
 app.get("/api/courses", (req, res) => {
@@ -91,7 +91,7 @@ app.post("/api/courses", (req, res) => {
       res.status(500).send("Internal Server Error");
     }
     try {
-     let database = JSON.parse(string);
+      let database = JSON.parse(string);
       database.push(user_data);
       fs.writeFile(
         "./modules/database.json",
