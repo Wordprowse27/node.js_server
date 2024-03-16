@@ -7,6 +7,10 @@
   "scripts": {
     "start": "nodemon index.js"
   },
+  "engines": {
+    "node":">=18.0.0",
+    "npm":"10.2.4"
+  },
   "author": "Leon barigye",
   "license": "ISC",
   "dependencies": {
