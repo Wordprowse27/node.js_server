@@ -49,32 +49,24 @@ app.get("/api/courses", (req, res) => {
 });
 TODO: "get by id";
 app.get("/api/courses/:id", (req, res) => {
-  let courseid = +req.params.id;
-  console.log(courseid);
+  const courseId = +req.params.id;
+  console.log(courseId);
+
   fs.readFile("./modules/database.json", "utf-8", (error, datastring) => {
     if (error) {
       console.error("Error reading file:", error);
-      res.status(500).send("Internal Server Error");
-      return;
+      return res.status(500).send("Internal Server Error");
     }
-    try {
-      // convert a string to a JSON object
-      const course_database = JSON.parse(datastring);
-      // console.log(course_database, courseid)
-      // Send the JSON data as a response
-      course_database.find((courses) => {
-        // check if course exists in database.
-        if (courses.id === courseid) {
-          // console.log(course_database)
-          res.send(course_database);
-        } else {
-          res.send("Search entry is invalid could not find course");
-        }
-      });
-    } catch (error) {
-      // If it throws an error console log the error.
-      console.error("Error parsing JSON data:", error);
-      res.status(500).send("Internal Server Error");
+
+    const courseDatabase = JSON.parse(datastring);
+    const foundCourse = courseDatabase.find(course => course.id === courseId);
+    // console.log(foundCourse)
+    if (foundCourse) {
+      // If course is found, send it as response
+      res.send(foundCourse);
+    } else {
+      // If course is not found, send appropriate error response
+      res.status(404).send("Course not found");
     }
   });
 });
@@ -124,19 +116,14 @@ app.patch("/api/courses/:id", (req, res) => {
       res.status(500).send("Internal Server Error");
       return;
     }
-    try {
-      // convert a string to a JSON object
       const course_database = JSON.parse(datastring);
       // console.log(course_database, courseid)
       // Send the JSON data as a response
-      course_database.find((courses) => {
-        // check if course exists in database.
-        if (courses.id === courseid) {
-          // updating the database title to KANZU CODE
-          courses.title = req.body.title;
-          // console.log(course_database)
-          // res.send(course_database)
-          // res.send("UDPATED THE FEILD IN THE DATABASE.")
+      const patchbyid = course_database.find(course => course.id === courseid);
+
+    if (patchbyid) {
+      patchbyid.title = req.body.title
+      console.log(course_database)
           fs.writeFile(
             "./modules/database.json",
             JSON.stringify(course_database, null, 2),
@@ -148,60 +135,50 @@ app.patch("/api/courses/:id", (req, res) => {
               res.send("Upated file successfully");
             }
           );
-        } else {
-          res.send(
-            "Search entry is invalid: COULD NOT FIND THE REQUEST PARAMETER"
-          );
-        }
-      });
-    } catch (error) {
-      // If it throws an error console log the error.
-      console.error("Error parsing JSON data:", error);
-      res.status(500).send("Internal Server Error");
-    }
-  });
-});
+          }else{
+              res.send("AN ERROR OCCURED WHILE CARRYING OUT THE OPERATION.")
+          }
+      })
+    });
+  
 
 TODO: "CREATE A DELETE ROUTE";
 app.delete("/api/courses/:id", (req, res) => {
   let courseid = +req.params.id;
-  console.log(courseid);
   fs.readFile("./modules/database.json", "utf-8", (error, datastring) => {
     if (error) {
       console.error("Error reading file:", error);
       res.status(500).send("Internal Server Error");
       return;
     }
-    try {
-      // convert a string to a JSON object
-      const courseDatabase = JSON.parse(datastring);
+      const course_database = JSON.parse(datastring);
+      // console.log(course_database, courseid)
       // Send the JSON data as a response
-      // Remove the course from the array
-      courseDatabase.splice(courseid, 1);
-      // confirm by printing the database
-      fs.writeFile(
-        "./modules/database.json",
-        JSON.stringify(courseDatabase, null, 2),
-        (err) => {
-          if (err) {
-            console.log("Failed to write update the data to the file.");
-            return;
-          }
-          res.send("THE DELETE OPERATION WAS SUCCESSFUL");
-        }
-      );
-    } catch (error) {
-      console.error("Error parsing JSON data:", error);
-      res.status(500).send("Internal Server Error");
+      const patchbyid = course_database.find(course => course.id === courseid);
+
+    if (1) {
+      course_database.splice(courseid-1, 1)
     }
-  });
-});
+          fs.writeFile(
+            "./modules/database.json",
+            JSON.stringify(course_database, null, 2),
+            (err) => {
+              if (err) {
+                console.log("Failed to write update the data to the file.");
+                return;
+              }
+              res.send("Upated file successfully");
+            }
+          );
+      })
+    });
+  
 app.post("/login", (req, res) => {
   const { username, password } = req.body;
   console.log(req.body);
   // console.log(username,password)
   if (password === "password123" && username === "admin") {
-    req.session.isAuthenticated = true;
+    // req.session.isAuthenticated = true;
     res.redirect("/node-course.html");
   } else {
     res.send("login was incorrecct");
