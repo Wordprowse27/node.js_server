@@ -154,7 +154,7 @@ app.delete("/api/courses/:id", (req, res) => {
       const course_database = JSON.parse(datastring);
       // console.log(course_database, courseid)
       // Send the JSON data as a response
-      const patchbyid = course_database.find(course => course.id === courseid);
+      // const patchbyid = course_database.find(course => course.id === courseid);
 
     if (1) {
       course_database.splice(courseid-1, 1)
